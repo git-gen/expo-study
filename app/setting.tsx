@@ -80,7 +80,7 @@ export default function Setting() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>設定</Text>
-      
+
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>一般</Text>
         <View style={styles.settingItem}>
@@ -154,4 +154,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
   },
-}); 
+});

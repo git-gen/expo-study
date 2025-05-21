@@ -57,7 +57,7 @@ export default function Profile() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>プロフィール</Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.editButton}
           onPress={() => setIsEditing(!isEditing)}
         >
@@ -114,7 +114,7 @@ export default function Profile() {
         </View>
 
         {isEditing && (
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.saveButton}
             onPress={handleSave}
           >
@@ -208,4 +208,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-}); 
+});

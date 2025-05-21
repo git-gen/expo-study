@@ -5,7 +5,7 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>ホーム</Text>
-      
+
       <View style={styles.buttonContainer}>
         <Link href="/profile" asChild>
           <TouchableOpacity style={styles.button}>
