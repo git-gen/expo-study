@@ -1,120 +1,69 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Alert, StyleSheet, Switch, Text, View } from 'react-native';
+import { useSettingStore } from '../store/useSettingStore';
 
-interface SettingData {
-  notification: boolean;
-  darkMode: boolean;
-  locationTracking: boolean;
-  analytics: boolean;
-}
-
-const STORAGE_KEY = '@setting_data';
+type SettingKey = 'notification' | 'darkMode' | 'locationTracking' | 'analytics';
 
 export default function Setting() {
-  const [notification, setNotification] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
-  const [locationTracking, setLocationTracking] = useState(false);
-  const [analytics, setAnalytics] = useState(true);
+  const {
+    notification,
+    darkMode,
+    locationTracking,
+    analytics,
+    initializeSettings,
+    updateSetting,
+  } = useSettingStore();
 
-  // 設定データの読み込み
   useEffect(() => {
-    loadSettings();
+    initializeSettings();
   }, []);
 
-  const loadSettings = async () => {
+  const handleSettingChange = async (key: SettingKey, value: boolean) => {
     try {
-      const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
-      if (jsonValue != null) {
-        const data: SettingData = JSON.parse(jsonValue);
-        setNotification(data.notification);
-        setDarkMode(data.darkMode);
-        setLocationTracking(data.locationTracking);
-        setAnalytics(data.analytics);
-      }
+      await updateSetting(key, value);
     } catch (error) {
-      console.error('設定の読み込みに失敗しました:', error);
-      Alert.alert('エラー', '設定の読み込みに失敗しました');
+      Alert.alert('エラー', '設定の更新に失敗しました');
     }
-  };
-
-  // 設定の保存
-  const saveSettings = async (key: keyof SettingData, value: boolean) => {
-    try {
-      const currentData = await AsyncStorage.getItem(STORAGE_KEY);
-      const settings: SettingData = currentData ? JSON.parse(currentData) : {
-        notification: true,
-        darkMode: false,
-        locationTracking: false,
-        analytics: true,
-      };
-
-      settings[key] = value;
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-    } catch (error) {
-      console.error('設定の保存に失敗しました:', error);
-      Alert.alert('エラー', '設定の保存に失敗しました');
-    }
-  };
-
-  const handleNotificationChange = (value: boolean) => {
-    setNotification(value);
-    saveSettings('notification', value);
-  };
-
-  const handleDarkModeChange = (value: boolean) => {
-    setDarkMode(value);
-    saveSettings('darkMode', value);
-  };
-
-  const handleLocationTrackingChange = (value: boolean) => {
-    setLocationTracking(value);
-    saveSettings('locationTracking', value);
-  };
-
-  const handleAnalyticsChange = (value: boolean) => {
-    setAnalytics(value);
-    saveSettings('analytics', value);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>設定</Text>
+    <View style={[styles.container, darkMode && styles.darkContainer]}>
+      <Text style={[styles.title, darkMode && styles.darkText]}>設定</Text>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>一般</Text>
+        <Text style={[styles.sectionTitle, darkMode && styles.darkText]}>一般</Text>
         <View style={styles.settingItem}>
-          <Text style={styles.settingLabel}>通知</Text>
+          <Text style={[styles.settingLabel, darkMode && styles.darkText]}>通知</Text>
           <Switch
             value={notification}
-            onValueChange={handleNotificationChange}
+            onValueChange={(value) => handleSettingChange('notification', value)}
           />
         </View>
 
         <View style={styles.settingItem}>
-          <Text style={styles.settingLabel}>ダークモード</Text>
+          <Text style={[styles.settingLabel, darkMode && styles.darkText]}>ダークモード</Text>
           <Switch
             value={darkMode}
-            onValueChange={handleDarkModeChange}
+            onValueChange={(value) => handleSettingChange('darkMode', value)}
           />
         </View>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>プライバシー</Text>
+        <Text style={[styles.sectionTitle, darkMode && styles.darkText]}>プライバシー</Text>
         <View style={styles.settingItem}>
-          <Text style={styles.settingLabel}>位置情報の追跡</Text>
+          <Text style={[styles.settingLabel, darkMode && styles.darkText]}>位置情報の追跡</Text>
           <Switch
             value={locationTracking}
-            onValueChange={handleLocationTrackingChange}
+            onValueChange={(value) => handleSettingChange('locationTracking', value)}
           />
         </View>
 
         <View style={styles.settingItem}>
-          <Text style={styles.settingLabel}>アナリティクス</Text>
+          <Text style={[styles.settingLabel, darkMode && styles.darkText]}>アナリティクス</Text>
           <Switch
             value={analytics}
-            onValueChange={handleAnalyticsChange}
+            onValueChange={(value) => handleSettingChange('analytics', value)}
           />
         </View>
       </View>
@@ -128,10 +77,16 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
   },
+  darkContainer: {
+    backgroundColor: '#1a1a1a',
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  darkText: {
+    color: '#fff',
   },
   section: {
     marginBottom: 25,

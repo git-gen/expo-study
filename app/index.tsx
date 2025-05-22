@@ -1,10 +1,21 @@
 import { Link } from "expo-router";
+import { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSettingStore } from "../store/useSettingStore";
 
 export default function Index() {
+  const { darkMode, notification, initializeSettings } = useSettingStore();
+
+  useEffect(() => {
+    initializeSettings();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>ホーム</Text>
+    <View style={[styles.container, darkMode && styles.darkContainer]}>
+      <Text style={[styles.title, darkMode && styles.darkText]}>ホーム</Text>
+      <Text style={[styles.modeText, darkMode && styles.darkText]}>
+        現在のモード: {darkMode ? 'ダークモード' : 'ライトモード'}
+      </Text>
 
       <View style={styles.buttonContainer}>
         <Link href="/profile" asChild>
@@ -19,11 +30,13 @@ export default function Index() {
           </TouchableOpacity>
         </Link>
 
-        <Link href="/notification" asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>通知</Text>
-          </TouchableOpacity>
-        </Link>
+        {notification && (
+          <Link href="/notification" asChild>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>通知</Text>
+            </TouchableOpacity>
+          </Link>
+        )}
       </View>
     </View>
   );
@@ -35,11 +48,23 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
   },
+  darkContainer: {
+    backgroundColor: '#1a1a1a',
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 30,
+    marginBottom: 20,
     textAlign: 'center',
+  },
+  darkText: {
+    color: '#fff',
+  },
+  modeText: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 30,
+    color: '#666',
   },
   buttonContainer: {
     gap: 15,
