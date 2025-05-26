@@ -37,6 +37,18 @@ export default function Index() {
             </TouchableOpacity>
           </Link>
         )}
+
+        <Link href="/nativewind" asChild>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>NativeWind</Text>
+          </TouchableOpacity>
+        </Link>
+
+        <Link href="/quiz" asChild>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>クイズ</Text>
+          </TouchableOpacity>
+        </Link>
       </View>
     </View>
   );
