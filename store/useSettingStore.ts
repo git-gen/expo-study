@@ -4,8 +4,6 @@ import { create } from 'zustand';
 interface SettingData {
   notification: boolean;
   darkMode: boolean;
-  locationTracking: boolean;
-  analytics: boolean;
 }
 
 interface SettingState extends SettingData {
@@ -18,12 +16,11 @@ const STORAGE_KEY = '@setting_data';
 const defaultSettings: SettingData = {
   notification: true,
   darkMode: false,
-  locationTracking: false,
-  analytics: true,
 };
 
 export const useSettingStore = create<SettingState>((set) => ({
   ...defaultSettings,
+
   initializeSettings: async () => {
     try {
       const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
@@ -35,6 +32,7 @@ export const useSettingStore = create<SettingState>((set) => ({
       console.error('設定の初期化に失敗しました:', error);
     }
   },
+
   updateSetting: async (key, value) => {
     try {
       const currentData = await AsyncStorage.getItem(STORAGE_KEY);
@@ -44,6 +42,7 @@ export const useSettingStore = create<SettingState>((set) => ({
       set({ [key]: value });
     } catch (error) {
       console.error('設定の更新に失敗しました:', error);
+      throw error;
     }
   },
 }));

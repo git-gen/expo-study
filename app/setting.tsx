@@ -2,14 +2,12 @@ import { useEffect } from 'react';
 import { Alert, StyleSheet, Switch, Text, View } from 'react-native';
 import { useSettingStore } from '../store/useSettingStore';
 
-type SettingKey = 'notification' | 'darkMode' | 'locationTracking' | 'analytics';
+type SettingKey = 'notification' | 'darkMode';
 
 export default function Setting() {
   const {
     notification,
     darkMode,
-    locationTracking,
-    analytics,
     initializeSettings,
     updateSetting,
   } = useSettingStore();
@@ -45,25 +43,6 @@ export default function Setting() {
           <Switch
             value={darkMode}
             onValueChange={(value) => handleSettingChange('darkMode', value)}
-          />
-        </View>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={[styles.sectionTitle, darkMode && styles.darkText]}>プライバシー</Text>
-        <View style={styles.settingItem}>
-          <Text style={[styles.settingLabel, darkMode && styles.darkText]}>位置情報の追跡</Text>
-          <Switch
-            value={locationTracking}
-            onValueChange={(value) => handleSettingChange('locationTracking', value)}
-          />
-        </View>
-
-        <View style={styles.settingItem}>
-          <Text style={[styles.settingLabel, darkMode && styles.darkText]}>アナリティクス</Text>
-          <Switch
-            value={analytics}
-            onValueChange={(value) => handleSettingChange('analytics', value)}
           />
         </View>
       </View>
