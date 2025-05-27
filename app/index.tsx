@@ -49,6 +49,12 @@ export default function Index() {
             <Text style={styles.buttonText}>クイズ</Text>
           </TouchableOpacity>
         </Link>
+
+        <Link href="/sound" asChild>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>サウンド</Text>
+          </TouchableOpacity>
+        </Link>
       </View>
     </View>
   );
