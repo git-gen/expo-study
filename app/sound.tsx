@@ -5,7 +5,7 @@ import { Button, StyleSheet, View } from 'react-native';
 // ローカルの音声ファイルを使用
 const soundSource = require('../assets/sounds/pokyun.mp3');
 
-export default function SoundScreen() {
+export default function Sound() {
   const player = useVideoPlayer(soundSource, player => {
     player.loop = false;
   });

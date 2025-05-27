@@ -44,7 +44,7 @@ const questions = [
   }
 ];
 
-export default function QuizPage() {
+export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);

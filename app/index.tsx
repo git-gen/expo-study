@@ -55,6 +55,12 @@ export default function Index() {
             <Text style={styles.buttonText}>サウンド</Text>
           </TouchableOpacity>
         </Link>
+
+        <Link href="/save-data" asChild>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>セーブデータ</Text>
+          </TouchableOpacity>
+        </Link>
       </View>
     </View>
   );

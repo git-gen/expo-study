@@ -1,7 +1,7 @@
 import { Link } from 'expo-router';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
-export default function NativeWindPage() {
+export default function NativeWind() {
   return (
     <ScrollView className="flex-1 bg-gray-100">
       {/* ヘッダーセクション */}
